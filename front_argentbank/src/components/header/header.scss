@@ -1,0 +1,27 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+    .header-logo{
+        max-width: 100%;
+        width: 200px;
+    }
+
+    .header-menu{
+
+        .link{
+            font-weight: bold;
+            color: #2c3e50;
+            text-decoration: none;
+            margin-right: 0.5rem;
+            display: flex;
+            align-items: center;
+            .icon-user{
+                width: 16px;
+                height: 16px;
+                margin-right: 5px;
+            }
+        }
+    }
+}

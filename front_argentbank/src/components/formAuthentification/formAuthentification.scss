@@ -1,0 +1,56 @@
+.formAuthentification{
+    box-sizing: border-box;
+    background-color: white;
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    padding: 2rem;
+    .icon-user{
+        display: block;
+        margin: auto;
+        width: 16px;
+        height: 16px;
+    }
+    h1{
+        font-size: 1.5em;
+        margin-block-start: 0.83em;
+        margin-block-end: 0.83em;
+        text-align: center;
+    }
+    .input-wrapper{
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        margin-bottom: 1rem;
+        label{
+            font-weight: bold;
+        }
+    }
+    .input-remember{
+        background-color: initial;
+        cursor: default;
+        appearance: auto;
+        box-sizing: border-box;
+        margin: 3px 3px 3px 4px;
+        padding: initial;
+        border: initial;
+        label{
+            margin-left: 0.25rem;
+        }
+    }
+
+    .authentification-button{
+        display: block;
+        width: 100%;
+        padding: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin-top: 1rem;
+        border-color: #00bc77;
+        background-color: #00bc77;
+        color: #fff;
+        outline: none;
+        border: none;
+    }
+    
+}
