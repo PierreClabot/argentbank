@@ -9,7 +9,8 @@
     }
 
     .header-menu{
-
+        display: flex;
+        gap: 20px;
         .link{
             font-weight: bold;
             color: #2c3e50;

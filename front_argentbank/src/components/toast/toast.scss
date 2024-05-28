@@ -1,0 +1,22 @@
+.toast{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: fixed;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.744);
+    color: #f1f1f1;
+    text-align: center;
+    padding: 1rem 2rem;
+    .toast-icone{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        
+        img{
+            width: 20px;
+        }
+    }
+    
+}

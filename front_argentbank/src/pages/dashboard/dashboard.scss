@@ -15,10 +15,10 @@
             margin-inline-start: 0px;
             margin-inline-end: 0px;
             font-weight: bold;
-            span{
-                display: block;
-                text-align: center;
-            }
+        }
+        h2{
+            font-size: 2em;
+            margin-top: 0;
         }
         .button{
             display: block;
@@ -28,5 +28,32 @@
             font-weight: bold;
             padding: 10px;
         }
+    }
+    .editProfile{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        .rowProfile{
+            display: flex;
+            gap: 20px;
+            input{
+                padding: 0.5rem 0rem 0.5rem 1rem;
+                width: 200px;
+                color: #c3cfd9;
+                outline: #c3cfd9 solid 1px;
+                border: none;
+            }
+            .btn-edit{
+                width: 120px;
+                padding: 0.5rem 0px;
+                background-color: #fff;
+                color: #6559f5;
+                outline: #6559f5 solid 1px;
+                border: none;
+            }
+        }
+
     }
 }

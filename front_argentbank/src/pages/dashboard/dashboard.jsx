@@ -1,10 +1,50 @@
 import Header from "../../components/header/header"
 import Account from "../../components/account/account"
 import Footer from "../../components/footer/footer"
-
+import Api from "../../api/api"
+import { getToken } from "../../utils/utils"
+import { useEffect, useState } from "react"
+import { profile } from "../../redux/profileSlice"
+import { useSelector, useDispatch } from 'react-redux'
+import Toast from "../../components/toast/toast"
+import { useLocation } from 'react-router-dom';
 
 function Dashboard(){
-    const name = "Tony Jarvis"
+
+    const dispatch = useDispatch()
+    const [editProfile,setEditProfile] = useState(false)
+    const [error,setError] = useState("")
+    const [firstName,setFirstName] = useState("")
+    const [lastName,setLastName] = useState("")
+    const [token,setToken] = useState("")
+    const [toast,setToast] = useState("")    
+    const location = useLocation();
+
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        if (params.get('login') === 'true') {
+            setToast("You are connected")
+            window.history.replaceState({}, document.title, "/");
+        }
+    }, [location]);
+
+    useEffect(()=>{
+        
+        async function getUser(){
+            setToken(getToken())
+            if(!token) return
+            const user = await Api.getUser(token)
+            setFirstName(user.firstName)
+            setLastName(user.lastName)
+        }
+        
+        getUser()
+    })
+
+    // const test = ()=>{
+    //     console.log("status from parent")
+    // }
+
     const arrAccounts = [
         {
             title : "Argent Bank Checking (x8349)",
@@ -22,13 +62,69 @@ function Dashboard(){
             description : "Current Balance"
         }
     ]
+
+    
+    function handleEditProfile(){
+        setEditProfile(!editProfile)
+    }
+
+    function saveProfile(){
+        
+        const firstName = document.querySelector("#firstname").value
+        const lastName  = document.querySelector("#lastname").value 
+        
+        if(( firstName == "") || ( lastName== "" )){
+            setError("First or last name is incorrect")
+            return;
+        }
+        
+        setFirstName(firstName)
+        setLastName(lastName)
+        
+        dispatch(profile({token,firstName,lastName}))
+        
+        setToast("Firstname and lastname update")
+        setTimeout(()=>{
+            setToast("")
+        },3000)
+
+        handleEditProfile()
+        
+    }
+
+    function htmlEditProfile(isEdit){
+        if(isEdit){
+            return(
+                <div className="editProfile">
+                    <div className="rowProfile">
+                        <input type="text" id="firstname" defaultValue={firstName} />
+                        <input type="text" id="lastname" defaultValue={lastName} />
+                    </div>
+                    <div className="rowProfile">
+                        <button className="btn-edit" onClick={saveProfile}>Save</button>
+                        <button className="btn-edit" onClick={handleEditProfile}>Cancel</button>
+                    </div>
+                </div>)
+        }
+
+        return(
+            <>
+                <h2>{firstName} {lastName}</h2>
+                <button className="button" onClick={handleEditProfile}>Edit Name</button>
+            </>
+        )
+
+    }
+
     return(
         <>
-            <Header />
+            <Header firstName={firstName}/>
             <main className="dashboard">
                 <div className="header">
-                    <h1>Welcome back <span>{name}</span></h1>
-                    <button className="button">Edit Name</button>
+                    <h1>Welcome back</h1>
+                    
+                    {htmlEditProfile(editProfile)}
+                    {error?<div className="error">{error}</div>:""}
                 </div>
                 {
                     arrAccounts.map((elem,index)=>{
@@ -36,6 +132,7 @@ function Dashboard(){
                     })
                 }
             </main>
+            {toast?(<Toast state="info" message={toast} delay="3" ></Toast>):""}
             <Footer />            
         </>
     )

@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit'
-import axios from 'axios'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import Api from '../api/api'
 
 const initialState = {
@@ -12,8 +11,8 @@ const initialState = {
     state : ""
 }
   
-export const loginSlice = createSlice({
-name: 'login',
+export const profileSlice = createSlice({
+name: 'profile',
 initialState,
 reducers: {
 
@@ -21,46 +20,41 @@ reducers: {
 extraReducers : (builder)=>{
     // Modifier les états selon les retours du serveur
     builder
-    .addCase(login.fulfilled,(state)=>{
+    .addCase(profile.fulfilled,(state,action)=>{
         // gestion d'erreur
         state.isComplete = true
         state.isError = false
         state.isPending = false
         state.state = "complete"
-        console.log("A")
+        state.firstName = action.payload.firstName
+        state.lastName  = action.payload.lastName
     })
-    .addCase(login.pending,(state)=>{
+    .addCase(profile.pending,(state)=>{
         state.isComplete = false
         state.isError = false
         state.isPending = true
         state.state = "pending"
-        console.log("B")
+
     })
-    .addCase(login.rejected,(state)=>{
+    .addCase(profile.rejected,(state)=>{
         state.isComplete = false
         state.isError = true
         state.isPending = false
         state.state = "reject"
-        console.log("C")
     })
 }
 })
 
-export const login = createAsyncThunk("login",async ({email,password,remember})=>{
-    let objLogin = {
-        email : email,
-        password : password
+export const profile = createAsyncThunk("profile",async ({token,firstName,lastName})=>{
+    let objProfile = {
+        token : token,
+        firstName : firstName,
+        lastName : lastName
     }
-
-    const res = await Api.login(objLogin)
-    if(remember){
-        localStorage.setItem("token",res)
-        return
-    }
-
-    sessionStorage.setItem("token",res)
-
+    const res = await Api.editProfile(objProfile)
+    return res;
 })
 
+// export const { login2, logout } = profileSlice.actions
 
-export default loginSlice.reducer
+export default profileSlice.reducer
