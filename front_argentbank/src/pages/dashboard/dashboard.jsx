@@ -5,11 +5,13 @@ import Api from "../../api/api"
 import { getToken } from "../../utils/utils"
 import { useEffect, useState } from "react"
 import { profile } from "../../redux/profileSlice"
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import Toast from "../../components/toast/toast"
 import { useLocation } from 'react-router-dom';
 
 function Dashboard(){
+
+
 
     const dispatch = useDispatch()
     const [editProfile,setEditProfile] = useState(false)
@@ -19,31 +21,36 @@ function Dashboard(){
     const [token,setToken] = useState("")
     const [toast,setToast] = useState("")    
     const location = useLocation();
+   
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         if (params.get('login') === 'true') {
             setToast("You are connected")
-            window.history.replaceState({}, document.title, "/");
+            window.history.replaceState({}, document.title, "/profile");
+            
         }
     }, [location]);
 
     useEffect(()=>{
-        
-        async function getUser(){
-            setToken(getToken())
-            if(!token) return
-            const user = await Api.getUser(token)
-            setFirstName(user.firstName)
-            setLastName(user.lastName)
-        }
-        
-        getUser()
-    })
+        setToken(getToken())
+    },[])
 
-    // const test = ()=>{
-    //     console.log("status from parent")
-    // }
+    useEffect(()=>{
+        function getUser(){
+            if(!token){
+                return
+            }
+            Api.getUser(token)
+            .then((res)=>{
+                setFirstName(res.firstName)
+                setLastName(res.lastName)
+            })
+            
+        }
+        getUser()
+    },[token])
+
 
     const arrAccounts = [
         {
@@ -73,7 +80,7 @@ function Dashboard(){
         const firstName = document.querySelector("#firstname").value
         const lastName  = document.querySelector("#lastname").value 
         
-        if(( firstName == "") || ( lastName== "" )){
+        if(( firstName.trim() == "") || ( lastName.trim() == "" )){
             setError("First or last name is incorrect")
             return;
         }
@@ -84,6 +91,7 @@ function Dashboard(){
         dispatch(profile({token,firstName,lastName}))
         
         setToast("Firstname and lastname update")
+        setError("")
         setTimeout(()=>{
             setToast("")
         },3000)

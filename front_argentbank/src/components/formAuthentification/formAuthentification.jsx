@@ -3,9 +3,10 @@ import iconUser from "../../assets/icon-user.svg"
 import { login } from "../../redux/loginSlice"
 import { useSelector, useDispatch } from 'react-redux'
 import Loader from "../loader/loader"
+import { useNavigate } from "react-router-dom"
 
 function FormAuthentification(){
-    
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const componentAuthentificationState = useSelector(state => state.login)
     const [error,setError] = useState("")
@@ -14,7 +15,7 @@ function FormAuthentification(){
         const btnAuthentification = document.querySelector(".authentification-button") 
         switch(componentAuthentificationState.state){
             case 'complete':
-                window.location = './profil?login=true'
+                navigate('/profile?login=true')
                 setSpinnerActive(false)
                 break;
             case 'pending':
@@ -41,8 +42,6 @@ function FormAuthentification(){
         const username = document.querySelector("#username").value
         const password = document.querySelector("#password").value
         const remember = document.querySelector("#remember").checked
-
-        if(!username) return;
 
         const validateEmail = username
         .toLowerCase()
@@ -78,11 +77,11 @@ function FormAuthentification(){
             <form>
                 <div className="input-wrapper">
                     <label htmlFor="username">Username</label>
-                    <input type="text" id="username" />
+                    <input type="text" id="username" autoComplete="username"/>
                 </div>
                 <div className="input-wrapper">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" />
+                    <input type="password" id="password" autoComplete="current-password"/>
                 </div>
                 <div className="input-remember">
                     <input type="checkbox" id="remember" />

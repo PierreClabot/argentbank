@@ -55,6 +55,5 @@ export const profile = createAsyncThunk("profile",async ({token,firstName,lastNa
     return res;
 })
 
-// export const { login2, logout } = profileSlice.actions
 
 export default profileSlice.reducer

@@ -27,21 +27,18 @@ extraReducers : (builder)=>{
         state.isError = false
         state.isPending = false
         state.state = "complete"
-        console.log("A")
     })
     .addCase(login.pending,(state)=>{
         state.isComplete = false
         state.isError = false
         state.isPending = true
         state.state = "pending"
-        console.log("B")
     })
     .addCase(login.rejected,(state)=>{
         state.isComplete = false
         state.isError = true
         state.isPending = false
         state.state = "reject"
-        console.log("C")
     })
 }
 })

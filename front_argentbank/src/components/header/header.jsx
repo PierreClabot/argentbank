@@ -39,7 +39,7 @@ function Header(props){
 
                 {
                     firstName?(
-                    <NavLink to="/profil" className="link">
+                    <NavLink to="/profile" className="link">
                         <img className="icon-user" src={iconUser} alt="Icon user" />
                         {firstName}
                     </NavLink>):""
