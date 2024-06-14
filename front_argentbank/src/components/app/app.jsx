@@ -14,6 +14,7 @@ function App(){
                 <Route path="/login" element={ <Authentification />} />
                 <Route path="/profile" element={<PrivateRoute Component={Dashboard}/>} />
                 <Route path="/logout" element={ <LogOut />} />
+                <Route path="*" element={<Home />} />
             </Routes>
         </Router>
     );
