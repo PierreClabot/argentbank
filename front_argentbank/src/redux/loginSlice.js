@@ -19,10 +19,8 @@ reducers: {
 
 },
 extraReducers : (builder)=>{
-    // Modifier les états selon les retours du serveur
     builder
     .addCase(login.fulfilled,(state)=>{
-        // gestion d'erreur
         state.isComplete = true
         state.isError = false
         state.isPending = false

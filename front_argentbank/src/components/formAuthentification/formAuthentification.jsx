@@ -10,6 +10,10 @@ function FormAuthentification(){
     const dispatch = useDispatch()
     const componentAuthentificationState = useSelector(state => state.login)
     const [error,setError] = useState("")
+    const [formUser, setFormUser] = useState({
+        username: '',
+        password: ''
+      });
     const [spinnerActive,setSpinnerActive] = useState(false)
     useEffect(()=>{
         const btnAuthentification = document.querySelector(".authentification-button") 
@@ -69,6 +73,13 @@ function FormAuthentification(){
 
     }
 
+    function handleChange(event){
+        const { name, value } = event.target;
+        setFormUser({
+            ...formUser,
+            [name]: value,
+          });
+    }
     
     return(
         <section className="formAuthentification">
@@ -77,11 +88,11 @@ function FormAuthentification(){
             <form>
                 <div className="input-wrapper">
                     <label htmlFor="username">Username</label>
-                    <input type="text" id="username" autoComplete="username"/>
+                    <input type="text" id="username" name="username" autoComplete="username" value={formUser.username} onChange={handleChange}/>
                 </div>
                 <div className="input-wrapper">
                     <label htmlFor="password">Password</label>
-                    <input type="password" id="password" autoComplete="current-password"/>
+                    <input type="password" id="password" name="password" autoComplete="current-password"  value={formUser.password} onChange={handleChange}/>
                 </div>
                 <div className="input-remember">
                     <input type="checkbox" id="remember" />
