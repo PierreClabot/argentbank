@@ -12,7 +12,8 @@ function FormAuthentification(){
     const [error,setError] = useState("")
     const [formUser, setFormUser] = useState({
         username: '',
-        password: ''
+        password: '',
+        remember: ''
       });
     const [spinnerActive,setSpinnerActive] = useState(false)
     useEffect(()=>{
@@ -43,11 +44,7 @@ function FormAuthentification(){
     function handleLogin(event){
         event.preventDefault();
 
-        const username = document.querySelector("#username").value
-        const password = document.querySelector("#password").value
-        const remember = document.querySelector("#remember").checked
-
-        const validateEmail = username
+        const validateEmail = formUser.username
         .toLowerCase()
         .match(
           /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
@@ -58,15 +55,15 @@ function FormAuthentification(){
             return
         }
 
-        if(password.length<4){
+        if(formUser.password.length<4){
             setError("Password must contain at least 4 characters")
             return
         }
-         
+        
         const objLogin = {
-            email : username,
-            password : password,
-            remember : remember
+            email : formUser.username,
+            password : formUser.password,
+            remember : formUser.remember
         }
 
         dispatch(login(objLogin))
@@ -74,10 +71,10 @@ function FormAuthentification(){
     }
 
     function handleChange(event){
-        const { name, value } = event.target;
+        const { name, value, type, checked } = event.target;
         setFormUser({
             ...formUser,
-            [name]: value,
+            [name]: type === "checkbox" ? checked : value,
           });
     }
     
@@ -95,7 +92,7 @@ function FormAuthentification(){
                     <input type="password" id="password" name="password" autoComplete="current-password"  value={formUser.password} onChange={handleChange}/>
                 </div>
                 <div className="input-remember">
-                    <input type="checkbox" id="remember" />
+                    <input type="checkbox" id="remember" name="remember" value={formUser.remember} onChange={handleChange}/>
                     <label htmlFor="remember">Remember me</label>
                 </div>
                 <button className="authentification-button" onClick={handleLogin}>Sign In <Loader isActive={spinnerActive} /></button>
